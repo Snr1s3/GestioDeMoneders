@@ -8,10 +8,6 @@ import org.springframework.stereotype.Component;
 public class PersonaMapper {
 
     public PersonaDto toDto(Persona persona) {
-        if (persona == null) {
-            return null;
-        }
-
         return new PersonaDto(
                 persona.getId(),
                 persona.getNom(),
@@ -21,15 +17,11 @@ public class PersonaMapper {
     }
 
     public Persona toEntity(PersonaDto personaDto) {
-        if (personaDto == null) {
-            return null;
-        }
-
-        return Persona.builder()
-                .id(personaDto.id())
-                .nom(personaDto.nom())
-                .grup(personaDto.grup())
-                .membreGestio(personaDto.membreGestio())
-                .build();
+        return new Persona(
+                personaDto.getId(),
+                personaDto.getNom(),
+                personaDto.getGrup(),
+                personaDto.isMembreGestio()
+        );
     }
 }

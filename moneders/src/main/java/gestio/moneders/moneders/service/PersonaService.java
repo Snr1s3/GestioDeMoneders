@@ -8,13 +8,13 @@ import reactor.core.publisher.Mono;
 
 public interface PersonaService {
 
-    Mono<PersonaDto> create(PersonaDto personaDto);
+    Mono<PersonaDto> save(PersonaDto personaDto);
 
     Flux<PersonaDto> findAll();
 
     Mono<PersonaDto> findById(Long id);
 
-    Mono<PersonaDto> update(Long id, PersonaDto personaDto);
+    Mono<PersonaDto> updateById(Long id, PersonaDto personaDto);
 
-    Mono<void> delete(Long id);
+    Mono<Void> deleteById(Long id);
 }

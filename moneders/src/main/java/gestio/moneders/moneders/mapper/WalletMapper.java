@@ -7,39 +7,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class WalletMapper {
 
-    private final PersonaMapper personaMapper;
-
-    public WalletMapper(PersonaMapper personaMapper) {
-        this.personaMapper = personaMapper;
-    }
-
     public WalletDto toDto(Wallet wallet) {
         return new WalletDto(
-                wallet.getId(),
-                personaMapper.toDto(wallet.getResponsableGestio()),
-                personaMapper.toDto(wallet.getResponsable()),
-                wallet.getDinersInicals(),
-                wallet.getDinersJustificats(),
-                wallet.getDinersFinals(),
-                wallet.getDataEntrega(),
-                wallet.getDataLimit(),
-                wallet.getConcepte(),
-                wallet.isRetornat()
+            wallet.getId(),
+            wallet.getResponsableGestio(),
+            wallet.getResponsable(),
+            wallet.getDinersInicals(),
+            wallet.getDinersJustificats(),
+            wallet.getDinersFinals(),
+            wallet.getDataEntrega(),
+            wallet.getDataLimit(),
+            wallet.getConcepte(),
+            wallet.isRetornat()
         );
     }
 
     public Wallet toEntity(WalletDto walletDto) {
         return new Wallet(
-                walletDto.id(),
-                personaMapper.toEntity(walletDto.responsableGestio()),
-                personaMapper.toEntity(walletDto.responsable()),
-                walletDto.dinersInicals(),
-                walletDto.dinersJustificats(),
-                walletDto.dinersFinals(),
-                walletDto.dataEntrega(),
-                walletDto.dataLimit(),
-                walletDto.concepte(),
-                walletDto.retornat()
+            walletDto.getId(),
+            walletDto.getResponsableGestio(),
+            walletDto.getResponsable(),
+            walletDto.getDinersInicals(),
+            walletDto.getDinersJustificats(),
+            walletDto.getDinersFinals(),
+            walletDto.getDataEntrega(),
+            walletDto.getDataLimit(),
+            walletDto.getConcepte(),
+            walletDto.isRetornat()
         );
     }
 }

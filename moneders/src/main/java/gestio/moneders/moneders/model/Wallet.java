@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import java.time.LocalDate;
 
 @Builder
 @NoArgsConstructor
@@ -15,13 +16,14 @@ import lombok.ToString;
 @ToString
 public class Wallet {
     private Long id;
-    private Persona responsableGestio;
-    private Persona responsable;
-    private float dinersInicals;
-    private float dinersJustificats;
-    private float dinersFinals;
-    private float dataEntrega;
-    private float dataLimit;
+    private Long responsableGestio;
+    private Long responsable;
+    private Double dinersInicals;
+    private Double dinersJustificats;
+    private Double dinersFinals;
+    private LocalDate dataEntrega;
+    private LocalDate dataLimit;
     private String concepte;
     private boolean retornat;
+
 }

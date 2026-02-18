@@ -8,13 +8,13 @@ import reactor.core.publisher.Mono;
 
 public interface WalletService {
 
-    Mono<WalletDto> create(WalletDto walletDto);
+    Mono<WalletDto> save(WalletDto walletDto);
 
     Flux<WalletDto> findAll();
 
     Mono<WalletDto> findById(Long id);
 
-    Mono<WalletDto> update(Long id, WalletDto walletDto);
+    Mono<WalletDto> updateById(Long id, WalletDto walletDto);
 
-    Mono<void> delete(Long id);
+    Mono<Void> deleteById(Long id);
 }
