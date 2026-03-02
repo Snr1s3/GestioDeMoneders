@@ -19,20 +19,29 @@ import gestio.moneders.moneders.settings.Settings;
 public class MonedersApplication {
 	private static final boolean CLI = true;
 	private static final String MENU = """
-================ MONEDERS CLI ================
-1  - Find all personas
-2  - Find persona by id
-3  - Create persona
-4  - Update persona
-5  - Delete persona
-6  - Find all wallets
-7  - Find wallet by id
-8  - Create wallet
-9  - Update wallet
-10 - Delete wallet
-14 - Exit
-=============================================
-Choose an option:""";	
+================================================
+								MONEDERS CLI
+================================================
+
+PERSONAS
+	1  - List all personas
+	2  - Find persona by ID
+	3  - Create persona
+	4  - Update persona
+	5  - Delete persona
+
+WALLETS
+	6  - List all wallets
+	7  - Find wallet by ID
+	8  - Create wallet
+	9  - Update wallet
+	10 - Delete wallet
+
+SYSTEM
+ 14  - Exit
+
+------------------------------------------------
+Choose an option:""";
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(MonedersApplication.class, args);
 		PersonaService personaService = context.getBean(PersonaService.class);
