@@ -83,11 +83,11 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: latest ${{ github.event.head_commit.timestamp || github.event.workflow_run.created_at || github.event.created_at }}
-          name: Latest Build - ${{ github.event.head_commit.timestamp || github.event.workflow_run.created_at || github.event.created_at }}
+          tag_name: build-${{ github.run_id }}-${{ github.run_attempt }}
+          name: Latest Build - Run ${{ github.run_number }}
           files: dist/*
           body: |
-              New prerelease build.
-              - Includes Windows .exe and Linux .deb
-              - Built from commit ${{ github.sha }}
+            New prerelease build.
+            - Includes Windows .exe and Linux .deb
+            - Built from commit ${{ github.sha }}
           prerelease: true
