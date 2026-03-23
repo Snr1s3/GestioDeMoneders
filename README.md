@@ -101,18 +101,67 @@ L'aplicació validarà que:
 
 Si introdueixes una ruta relativa, es resoldrà desde el directori de treball actual de l'aplicació.
 
-## Construcció d'un JAR Executable
+## Descàrrega d'Instal·ladors
+
+Els instal·ladors es generen automàticament via GitHub Actions i es publiquen a GitHub Releases:
+
+- **Windows** (`.exe`): Instal·lador natiu per a Windows
+- **Debian/Ubuntu** (`.deb`): Paquet d'instal·lació per a Linux
+
+Descarrega'ls des de:
+```
+https://github.com/<usuari>/<repo>/releases/tag/latest
+```
+
+### Instal·lació en Debian/Ubuntu
+
+```bash
+sudo dpkg -i moneders_0.0.1_amd64.deb
+moneders
+```
+
+### Instal·lació en Windows
+
+Executa `moneders-0.0.1.exe` i segueix l'assistent d'instal·lació.
+
+## Construcció Manual
+
+### JAR Executable
 
 ```bash
 ./mvnw clean package
-java -jar target/moneders-0.0.1-SNAPSHOT.jar
+java -jar target/moneders-cli.jar
 ```
+
+### Paquet .deb (Linux)
+
+```bash
+./mvnw clean package -DskipTests
+jpackage --type deb --name moneders --input target --main-jar moneders-cli.jar --dest dist --app-version 0.0.1
+```
+
+### Instal·lador .exe (Windows)
+
+```powershell
+.\mvnw.cmd clean package -DskipTests
+jpackage --type exe --name moneders --input target --main-jar moneders-cli.jar --dest dist --app-version 0.0.1
+```
+
+## CI/CD
+
+El projecte utilitza GitHub Actions per construir i publicar instal·ladors automàticament en cada push a `main`:
+
+| Job | Sistema | Artefacte |
+|-----|---------|-----------|
+| `build-exe` | Windows | `.exe` |
+| `build-deb` | Ubuntu | `.deb` |
+| `release` | Ubuntu | Publica a GitHub Releases |
 
 ## Configuració
 
 Edita `src/main/resources/application.properties` per personalitzar:
 - Port de l'aplicació
-- Conexió a base de dades
+- Connexió a base de dades
 - Altres paràmetres de Spring Boot
 
 ## Informació de Contacte
