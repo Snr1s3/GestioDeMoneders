@@ -84,6 +84,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: latest
-          name: Latest Build
+          name: Latest Build - ${{ github.event.head_commit.timestamp || github.event.workflow_run.created_at || github.event.created_at }}
           files: dist/*
           prerelease: true
