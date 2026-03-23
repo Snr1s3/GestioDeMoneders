@@ -90,4 +90,4 @@ jobs:
             New prerelease build.
             - Includes Windows .exe and Linux .deb
             - Built from commit ${{ github.sha }}
-          prerelease: true
+          prerelease: false
