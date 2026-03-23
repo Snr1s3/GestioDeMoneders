@@ -5,10 +5,10 @@ Aplicació de gestió de moneders i persones construïda amb Spring Boot. Permet
 ## Característiques
 
 - **Gestió de Personas**: Crear, llistar, cercar, actualitzar i eliminar personas
-- **Gestió de Carteretes**: Gestionar carteretes amb responsables, conceptes i dates
-- **Integració Excel**: Lectura i escriptura de datos en fitxers XLSX
+- **Gestió de Carteretes (Wallets)**: Crear, llistar, cercar, actualitzar i eliminar carteretes amb responsables, conceptes i dates
+- **Integració Excel**: Lectura i escriptura completa de dades en fitxers XLSX
 - **Interfície CLI**: Menú interactiu per accedir a totes les funcionalitats
-- **Validació de Fitxers**: Validació de rutes i fitxers Excel
+- **Persistència de Dades**: Totes les operacions CRUD completament implementades per a personas i carteretes
 
 ## Estructura del Projecte
 
@@ -26,9 +26,10 @@ src/main/java/gestio/moneders/moneders/
 ## Tecnologies
 
 - **Java 21**
-- **Spring Boot 3.x**
-- **Apache POI** (Excel)
-- **Maven**
+- **Spring Boot 4.0.2**
+- **Apache POI 5.2.5** (Excel)
+- **Maven 3.6+**
+- **Lombok** (anotacions)
 
 ## Instal·lació
 
@@ -54,13 +55,28 @@ cd moneders
 
 ## Ús
 
+### Construcció del JAR
+
+```bash
+cd moneders
+./mvnw clean package
+```
+
+Això generarà un JAR executables a `target/moneders-cli.jar`
+
 ### Executar l'Aplicació
 
+#### Via Maven
 ```bash
 ./mvnw spring-boot:run
 ```
 
-L'aplicació t'esperarà per introduir la ruta del fitxer Excel:
+#### Via JAR compilat
+```bash
+java -jar target/moneders-cli.jar
+```
+
+L'aplicació et demanarà per introduir la ruta del fitxer Excel:
 
 ```
 Ruta del fitxer xlsx:

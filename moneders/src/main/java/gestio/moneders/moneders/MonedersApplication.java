@@ -1,6 +1,5 @@
 package gestio.moneders.moneders;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -39,7 +38,7 @@ WALLETS
 	10 - Delete wallet
 
 STTINGS
-	11  - Cambiar fitxer
+	11  - Change file path
 SYSTEM
  14  - Exit
 
@@ -156,6 +155,47 @@ Choose an option:""";
 							println("Wallet not found");
 						}
 					}
+					case 8 -> {
+						println("Responsable gestio (persona id):");
+						Long responsableGestio = Long.valueOf(ReadInput.readInput());
+
+						println("Responsable (persona id):");
+						Long responsable = Long.valueOf(ReadInput.readInput());
+
+						println("Diners inicials:");
+						Double dinersInicals = Double.valueOf(ReadInput.readInput());
+
+						println("Diners justificats:");
+						Double dinersJustificats = Double.valueOf(ReadInput.readInput());
+
+						println("Diners finals:");
+						Double dinersFinals = Double.valueOf(ReadInput.readInput());
+
+						println("Data entrega (MM/dd/yyyy):");
+						LocalDate dataEntrega = LocalDate.parse(ReadInput.readInput(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+						println("Data limit (MM/dd/yyyy):");
+						LocalDate dataLimit = LocalDate.parse(ReadInput.readInput(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+						println("Concepte:");
+						String concepte = ReadInput.readInput();
+
+						println("Retornat (true/false):");
+						String ret = ReadInput.readInput();
+						boolean retornat = "true".equalsIgnoreCase(ret) || "yes".equalsIgnoreCase(ret) || "1".equals(ret);
+
+						WalletDto wallet = new WalletDto(
+								null, responsableGestio, responsable, dinersInicals, dinersJustificats,
+								dinersFinals, dataEntrega, dataLimit, concepte, retornat
+						);
+
+						var created = walletService.save(wallet).block();
+						if (created != null) {
+							System.out.println(created.toDisplayString(personaId -> resolvePersonaName(personaService, personaId)));
+						} else {
+							println("Wallet not created");
+						}
+					} 
 					case 9 -> {
 						System.out.println("Id wallet:");
 						Long id = Long.valueOf(ReadInput.readInput());
@@ -207,6 +247,18 @@ Choose an option:""";
 						}
 					}
 					case 10 -> {
+						System.out.println("Id wallet:");
+						Long id = Long.valueOf(ReadInput.readInput());
+
+						var wallet = walletService.findById(id).block();
+						if (wallet != null) {
+							walletService.deleteById(id).block();
+							println("Wallet deleted");
+						} else {
+							println("Wallet not found");
+						}
+					} 
+					case 11 -> {
 						xlsxPath = Settings.setNewPath();
 						Settings.setPath(xlsxPath);
 					}
@@ -216,8 +268,10 @@ Choose an option:""";
 					}
 					default -> println("Invalid option");
 				}
+				if(input != 14){
 				System.out.println("Enter");
-				input = ReadInput.readInputInt();
+				ReadInput.readInput();
+				}
 			}
 		}
 	}
