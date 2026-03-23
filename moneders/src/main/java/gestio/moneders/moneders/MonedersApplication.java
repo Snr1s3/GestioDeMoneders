@@ -1,6 +1,7 @@
 package gestio.moneders.moneders;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -20,7 +21,7 @@ public class MonedersApplication {
 	private static final boolean CLI = true;
 	private static final String MENU = """
 ================================================
-								MONEDERS CLI
+	MONEDERS CLI
 ================================================
 
 PERSONAS
@@ -37,6 +38,8 @@ WALLETS
 	9  - Update wallet
 	10 - Delete wallet
 
+STTINGS
+	11  - Cambiar fitxer
 SYSTEM
  14  - Exit
 
@@ -52,7 +55,9 @@ Choose an option:""";
 		if (CLI) {
 			boolean running = true;
 			int input;
-			String xlsxPath = Path.of("C:\\Users\\AlbaSegura\\Documents\\moneders\\moneders\\prova.xlsx").toAbsolutePath().normalize().toString();
+			
+			System.out.println(Paths.get("").toAbsolutePath());
+			String xlsxPath = Settings.setNewPath();
 			Settings.setPath(xlsxPath);
 
 			while (running) {
@@ -69,25 +74,26 @@ Choose an option:""";
 						if (persona != null) {
 							System.out.println(persona);
 						} else {
-							print("Persona not found");
+							println("Persona not found");
 						}
 					}
 					case 3 -> {
-						print("Nom:");
+						println("Nom:");
 						String nom = ReadInput.readInput();
-						print("Grup:");
+						println("Grup:");
 						String grup = ReadInput.readInput();
-						print("Membre Gestio (True/False):");
+						println("Membre Gestio (True/False):");
 						String mg = ReadInput.readInput();
 						boolean membreGestio = "true".equalsIgnoreCase(mg)
 											|| "yes".equalsIgnoreCase(mg)
-											|| "1".equals(mg);
+											|| "1".equals(mg)
+											|| "si".equalsIgnoreCase(mg);
 						Persona p = new Persona(null, nom, grup, membreGestio);
 						var persona = personaService.save(personaMapper.toDto(p)).block();
 						if (persona != null) {
 							System.out.println(persona);
 						} else {
-							print("Persona not found");
+							println("Persona not found");
 						}
 
 					}
@@ -98,24 +104,25 @@ Choose an option:""";
 						var persona = personaService.findById(id).block();
 						
 						if (persona != null) {
-							print("Nom:");
+							println("Nom:");
 							String nom = ReadInput.readInput();
-							print("Grup:");
+							println("Grup:");
 							String grup = ReadInput.readInput();
-							print("Membre Gestio (True/False):");
+							println("Membre Gestio (True/False):");
 							String mg = ReadInput.readInput();
 							boolean membreGestio = "true".equalsIgnoreCase(mg)
 												|| "yes".equalsIgnoreCase(mg)
-												|| "1".equals(mg);
+												|| "1".equals(mg)
+												|| "si".equalsIgnoreCase(mg);
 							Persona p = new Persona(id, nom, grup, membreGestio);
 							var update = personaService.updateById(id, personaMapper.toDto(p)).block();
 							if (update != null) {
 								System.out.println(update);
 							} else {
-								print("Persona not found");
+								println("Persona not found");
 							}
 						} else {
-							print("Persona not found");
+							println("Persona not found");
 						}
 					}
 					case 5 -> {
@@ -125,9 +132,9 @@ Choose an option:""";
 						var persona = personaService.findById(id).block();
 						if (persona != null) {
 							personaService.deleteById(id).block();
-							print("Persona deleted");
+							println("Persona deleted");
 						} else {
-							print("Persona not found");
+							println("Persona not found");
 						}
 					}
 					case 6 -> walletService.findAll()
@@ -146,7 +153,7 @@ Choose an option:""";
 						if (wallet != null) {
 							System.out.println(wallet.toDisplayString(personaId -> resolvePersonaName(personaService, personaId)));
 						} else {
-							print("Wallet not found");
+							println("Wallet not found");
 						}
 					}
 					case 9 -> {
@@ -156,31 +163,31 @@ Choose an option:""";
 						var current = walletService.findById(id).block();
 						
 						if (current != null) {
-							print("Responsable gestio (persona id):");
+							println("Responsable gestio (persona id):");
 							Long responsableGestio = Long.valueOf(ReadInput.readInput());
 
-							print("Responsable (persona id):");
+							println("Responsable (persona id):");
 							Long responsable = Long.valueOf(ReadInput.readInput());
 
-							print("Diners inicials:");
+							println("Diners inicials:");
 							Double dinersInicals = Double.valueOf(ReadInput.readInput());
 
-							print("Diners justificats:");
+							println("Diners justificats:");
 							Double dinersJustificats = Double.valueOf(ReadInput.readInput());
 
-							print("Diners finals:");
+							println("Diners finals:");
 							Double dinersFinals = Double.valueOf(ReadInput.readInput());
 
-							print("Data entrega (MM/dd/yyyy):");
+							println("Data entrega (MM/dd/yyyy):");
 							LocalDate dataEntrega = LocalDate.parse(ReadInput.readInput(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-							print("Data limit (MM/dd/yyyy):");
+							println("Data limit (MM/dd/yyyy):");
 							LocalDate dataLimit = LocalDate.parse(ReadInput.readInput(), DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 
-							print("Concepte:");
+							println("Concepte:");
 							String concepte = ReadInput.readInput();
 
-							print("Retornat (true/false):");
+							println("Retornat (true/false):");
 							String ret = ReadInput.readInput();
 							boolean retornat = "true".equalsIgnoreCase(ret) || "yes".equalsIgnoreCase(ret) || "1".equals(ret);
 
@@ -193,29 +200,30 @@ Choose an option:""";
 							if (updated != null) {
 								System.out.println(updated.toDisplayString(personaId -> resolvePersonaName(personaService, personaId)));
 							} else {
-								print("Wallet not found");
+								println("Wallet not found");
 							}
 						} else {
-							print("Wallet not found");
+							println("Wallet not found");
 						}
+					}
+					case 10 -> {
+						xlsxPath = Settings.setNewPath();
+						Settings.setPath(xlsxPath);
 					}
 					case 14 -> {
 						running = false;
 						SpringApplication.exit(context);
 					}
-					default -> print("Invalid option");
+					default -> println("Invalid option");
 				}
+				System.out.println("Enter");
+				input = ReadInput.readInputInt();
 			}
 		}
 	}
 
 
-	public static void print(String s){
-		System.out.println(s);
-	}
-	public static void print(int s){
-		System.out.println(s);
-	}public static void print(boolean s){
+	public static void println(Object s){
 		System.out.println(s);
 	}
 	private static String resolvePersonaName(PersonaService walletService, Long walletId) {
