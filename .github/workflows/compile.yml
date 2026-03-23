@@ -1,0 +1,63 @@
+name: Build Installers
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-exe:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: moneders
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Build jar
+        run: ./mvnw clean package -DskipTests
+
+      - name: Build exe with jpackage
+        run: jpackage --type exe --name moneders --input target --main-jar moneders-cli.jar --dest dist 
+
+      - name: Upload exe artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: moneders-exe
+          path: moneders/dist/*.exe
+
+  build-deb:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: moneders
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+
+      - name: Build jar
+        run: ./mvnw clean package -DskipTests
+
+      - name: Build deb with jpackage
+        run: jpackage --type deb --name moneders --input target --main-jar moneders-cli.jar --dest dist 
+
+      - name: Upload deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: moneders-deb
+          path: moneders/dist/*.deb
